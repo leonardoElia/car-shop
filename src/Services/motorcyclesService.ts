@@ -1,7 +1,7 @@
 import { isValidObjectId } from 'mongoose';
 import IMotorcycles from '../Interfaces/IMotorcycle';
 import MotocyclesModel from '../Models/MotorcyclesModel';
-import Motorcycle from '../Domains/Motorcycles';
+import Motorcycle from '../Domains/Motorcycle';
 
 class MotorcycleService {
   private motorcyclesModel: MotocyclesModel;
