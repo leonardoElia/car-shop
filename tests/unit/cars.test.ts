@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import ICar from '../../src/Interfaces/ICar';
 import CarService from '../../src/Services/carsService';
 // import Car from '../../src/Domains/Car';
-
+const textoMessage = 'Invalid mongo id';
 // tests/unit/services/transfer.test.ts
 
 describe('testes da rotas de cars', function () {
@@ -94,6 +94,22 @@ describe('testes da rotas de cars', function () {
     const service = new CarService();
     const result = await service.listCar('jdldfjldkj');
     
-    expect(result).to.be.deep.equal({ type: 'erro id', message: 'Invalid mongo id' });
+    expect(result).to.be.deep.equal({ type: 'erro id', message: textoMessage });
+  });
+
+  it('testando em caso de id não ter o formato correto ao atualizar', async function () {
+    const carInput: ICar = {
+      model: 'Marea',
+      year: 1992,
+      color: 'Red',
+      status: true,
+      buyValue: 12.000,
+      doorsQty: 2,
+      seatsQty: 5,
+    };
+    const service = new CarService();
+    const result = await service.updateCar(carInput, 'jdldfjldkj');
+    
+    expect(result).to.be.deep.equal({ type: 'erro id', message: textoMessage });
   });
 });
