@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Model } from 'mongoose';
-import ICar from '../../src/Interfaces/ICar';
-import CarService from '../../src/Services/carsService';
+import ICar from '../../../src/Interfaces/ICar';
+import CarService from '../../../src/Services/carsService';
 // import Car from '../../src/Domains/Car';
 const textoMessage = 'Invalid mongo id';
 // tests/unit/services/transfer.test.ts
@@ -61,7 +61,7 @@ describe('testes da rotas de cars', function () {
     expect(result).to.be.deep.equal(carsList);
   });
 
-  it('testando se lista carro busxando por id em caso de sucesso', async function () {
+  it('testando se lista carro buscando por id em caso de sucesso', async function () {
     const car = {
       id: '64495b8cbeb22eb6b3dc4236',
       model: 'Marea',
@@ -81,7 +81,7 @@ describe('testes da rotas de cars', function () {
     expect(result).to.be.deep.equal({ type: null, message: car });
   });
 
-  it('testando se exibe a mesagem correta caso id não existir', async function () {
+  it('testando se exibe a mesagem correta caso id não existir ao buscar carro', async function () {
     sinon.stub(Model, 'findById').resolves(null);
 
     const service = new CarService();
@@ -90,7 +90,7 @@ describe('testes da rotas de cars', function () {
     expect(result).to.be.deep.equal({ type: 'car does not exist', message: 'Car not found' });
   });
 
-  it('testando em caso de id não ter o formato correto', async function () {
+  it('testando em caso de id não ter o formato correto ao buscar carro', async function () {
     const service = new CarService();
     const result = await service.listCar('jdldfjldkj');
     
