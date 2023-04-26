@@ -1,3 +1,4 @@
+import { isValidObjectId } from 'mongoose';
 import ICar from '../Interfaces/ICar';
 import CarsModel from '../Models/CarsModel';
 import Car from '../Domains/Car';
@@ -12,6 +13,19 @@ class CarService {
   public async createCar(car: ICar): Promise<Car> {
     const newCar = await this.carModel.create(car);
     return new Car(newCar);
+  }
+
+  public async listCars(): Promise<Car[]> {
+    const cars = await this.carModel.list();
+    const carsArray = cars.map((car) => new Car(car));
+    return carsArray;
+  }
+
+  public async listCar(id: string) {
+    if (!isValidObjectId(id)) return { type: 'erro id', message: 'Invalid mongo id' };
+    const car = await this.carModel.cardId(id); 
+    if (car) return { type: null, message: new Car(car) };
+    return { type: 'car does not exist', message: 'Car not found' };
   }
 }
 

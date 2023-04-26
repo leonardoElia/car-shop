@@ -29,6 +29,20 @@ class CarsController {
     const newCar = await this.carService.createCar(car);
     return this.res.status(201).json(newCar);
   }
+
+  public async getCar() {
+    const cars = await this.carService.listCars();
+    return this.res.status(200).json(cars);
+  }
+
+  public async getCarId() {
+    const { id } = this.req.params;
+    const car = await this.carService.listCar(id);
+    const { type, message } = car;
+    if (type === 'car does not exist') return this.res.status(404).json({ message });
+    if (type === 'erro id') return this.res.status(422).json({ message });
+    return this.res.status(200).json(message);
+  }
 }
 
 export default CarsController;

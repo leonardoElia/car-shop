@@ -22,11 +22,19 @@ class CarsModel {
       seatsQty: { type: Number, required: true },
     });
 
-    this.model = models.Payment || model('Car', this.schema);
+    this.model = models.Car || model('Car', this.schema);
   }
 
   public async create(car: ICar): Promise<ICar> {
     return this.model.create({ ...car });
+  }
+
+  public async list(): Promise<ICar[]> {
+    return this.model.find({});
+  }
+
+  public async cardId(id: string): Promise<ICar | null> {
+    return this.model.findById(id);
   }
 }
 
