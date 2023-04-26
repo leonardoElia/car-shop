@@ -36,6 +36,10 @@ class CarsModel {
   public async cardId(id: string): Promise<ICar | null> {
     return this.model.findById(id);
   }
+
+  public async update(car: ICar, id:string): Promise<ICar | null> {
+    return this.model.findOneAndUpdate({ _id: id }, { ...car }, { new: true });
+  }
 }
 
 export default CarsModel;

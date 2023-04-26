@@ -43,6 +43,26 @@ class CarsController {
     if (type === 'erro id') return this.res.status(422).json({ message });
     return this.res.status(200).json(message);
   }
+
+  public async putCar() {
+    const car: ICar = {
+      model: this.req.body.model,
+      year: this.req.body.year,
+      color: this.req.body.color,
+      status: this.req.body.status,
+      buyValue: this.req.body.buyValue,
+      doorsQty: this.req.body.doorsQty,
+      seatsQty: this.req.body.seatsQty,
+    };
+
+    const { id } = this.req.params;
+
+    const carUpdate = await this.carService.updateCar(car, id);
+    const { type, message } = carUpdate as any;
+    if (type === 'car does not exist') return this.res.status(404).json({ message });
+    if (type === 'erro id') return this.res.status(422).json({ message });
+    return this.res.status(200).json(message);
+  }
 }
 
 export default CarsController;

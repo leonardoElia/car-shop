@@ -27,6 +27,14 @@ class CarService {
     if (car) return { type: null, message: new Car(car) };
     return { type: 'car does not exist', message: 'Car not found' };
   }
+
+  public async updateCar(car: ICar, id:string) {
+    if (!isValidObjectId(id)) return { type: 'erro id', message: 'Invalid mongo id' };
+    const carId = await this.carModel.cardId(id); 
+    if (carId === null) return { type: 'car does not exist', message: 'Car not found' };
+    const carUpdate = await this.carModel.update(car, id);
+    return { type: null, message: new Car(carUpdate as ICar) };
+  }
 }
 
 export default CarService;
