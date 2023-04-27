@@ -3,6 +3,11 @@ import IMotorcycles from '../Interfaces/IMotorcycle';
 import MotocyclesModel from '../Models/MotorcyclesModel';
 import Motorcycle from '../Domains/Motorcycle';
 
+const erroId = 'erro id';
+const invalidId = 'Invalid mongo id';
+const motoNotExist = 'Motorcycle does not exist';
+const motNotFound = 'Motorcycle not found';
+
 class MotorcycleService {
   private motorcyclesModel: MotocyclesModel;
 
@@ -22,20 +27,28 @@ class MotorcycleService {
   }
 
   public async listmotorcycle(id: string) {
-    if (!isValidObjectId(id)) return { type: 'erro id', message: 'Invalid mongo id' };
+    if (!isValidObjectId(id)) return { type: erroId, message: invalidId };
     const motorcycle = await this.motorcyclesModel.vehicleId(id); 
     if (motorcycle) return { type: null, message: new Motorcycle(motorcycle) };
-    return { type: 'Motorcycle does not exist', message: 'Motorcycle not found' };
+    return { type: motoNotExist, message: motNotFound };
   }
 
   public async updateMotorcycle(motocycles: IMotorcycles, id:string) {
-    if (!isValidObjectId(id)) return { type: 'erro id', message: 'Invalid mongo id' };
+    if (!isValidObjectId(id)) return { type: erroId, message: invalidId };
     const motorcycleId = await this.motorcyclesModel.vehicleId(id);
     if (motorcycleId === null) {
-      return { type: 'Motorcycle does not exist', message: 'Motorcycle not found' };
+      return { type: motoNotExist, message: motNotFound };
     } 
     const motorcycleUpdate = await this.motorcyclesModel.update(motocycles, id);
     return { type: null, message: new Motorcycle(motorcycleUpdate as IMotorcycles) };
+  }
+
+  public async deleteMotorcycle(id:string) {
+    if (!isValidObjectId(id)) return { type: erroId, message: invalidId };
+    const motorcycleId = await this.motorcyclesModel.vehicleId(id); 
+    if (motorcycleId === null) return { type: motoNotExist, message: motNotFound };
+    const deleteMotorcycle = await this.motorcyclesModel.delete(id);
+    return { type: null, message: deleteMotorcycle };
   }
 }
 

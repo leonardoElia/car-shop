@@ -2,6 +2,9 @@ import { NextFunction, Request, Response } from 'express';
 import ICar from '../Interfaces/ICar';
 import CarService from '../Services/carsService';
 
+const erroId = 'erro id';
+const carNotExist = 'car does not exist';
+
 class CarsController { 
   private req: Request;
   private res: Response;
@@ -39,8 +42,8 @@ class CarsController {
     const { id } = this.req.params;
     const car = await this.carService.listCar(id);
     const { type, message } = car;
-    if (type === 'car does not exist') return this.res.status(404).json({ message });
-    if (type === 'erro id') return this.res.status(422).json({ message });
+    if (type === carNotExist) return this.res.status(404).json({ message });
+    if (type === erroId) return this.res.status(422).json({ message });
     return this.res.status(200).json(message);
   }
 
@@ -59,9 +62,18 @@ class CarsController {
 
     const carUpdate = await this.carService.updateCar(car, id);
     const { type, message } = carUpdate as any;
-    if (type === 'car does not exist') return this.res.status(404).json({ message });
-    if (type === 'erro id') return this.res.status(422).json({ message });
+    if (type === carNotExist) return this.res.status(404).json({ message });
+    if (type === erroId) return this.res.status(422).json({ message });
     return this.res.status(200).json(message);
+  }
+
+  public async deleteCar() {
+    const { id } = this.req.params;
+    const deleteCar = await this.carService.deleteCar(id);
+    const { type, message } = deleteCar;
+    if (type === carNotExist) return this.res.status(404).json({ message });
+    if (type === erroId) return this.res.status(422).json({ message });
+    return this.res.status(200).end();
   }
 }
 

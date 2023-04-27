@@ -22,4 +22,9 @@ carRoutes.put(
   '/cars/:id',
   (req, res, next) => new CarsController(req, res, next).putCar(),
 );
+
+carRoutes.delete(
+  '/cars/:id',
+  (req, res, next) => new CarsController(req, res, next).deleteCar(),
+);
 export default carRoutes;

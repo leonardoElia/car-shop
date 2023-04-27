@@ -22,4 +22,11 @@ motorcyclesRoutes.put(
   '/motorcycles/:id',
   (req, res, next) => new MotorcyclesController(req, res, next).putMotorcycles(),
 );
+
+motorcyclesRoutes.delete(
+  '/motorcycle/:id',
+  (req, res, next) => new MotorcyclesController(req, res, next).deleteMotorcycles(),
+);
+
+// colocar o s no fim da corra delete esta escrito apenas motorcycle
 export default motorcyclesRoutes;

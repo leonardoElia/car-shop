@@ -2,6 +2,9 @@ import { NextFunction, Request, Response } from 'express';
 import IMotorcycles from '../Interfaces/IMotorcycle';
 import MotorcycleService from '../Services/motorcyclesService';
 
+const erroId = 'erro id';
+const motoNotExist = 'Motorcycle does not exist';
+
 class MotorcyclesController { 
   private req: Request;
   private res: Response;
@@ -39,8 +42,8 @@ class MotorcyclesController {
     const { id } = this.req.params;
     const motorcycle = await this.motorcycleService.listmotorcycle(id);
     const { type, message } = motorcycle;
-    if (type === 'Motorcycle does not exist') return this.res.status(404).json({ message });
-    if (type === 'erro id') return this.res.status(422).json({ message });
+    if (type === motoNotExist) return this.res.status(404).json({ message });
+    if (type === erroId) return this.res.status(422).json({ message });
     return this.res.status(200).json(message);
   }
 
@@ -59,9 +62,18 @@ class MotorcyclesController {
 
     const motorcycleUpdate = await this.motorcycleService.updateMotorcycle(motorcycle, id);
     const { type, message } = motorcycleUpdate as any;
-    if (type === 'Motorcycle does not exist') return this.res.status(404).json({ message });
-    if (type === 'erro id') return this.res.status(422).json({ message });
+    if (type === motoNotExist) return this.res.status(404).json({ message });
+    if (type === erroId) return this.res.status(422).json({ message });
     return this.res.status(200).json(message);
+  }
+
+  public async deleteMotorcycles() {
+    const { id } = this.req.params;
+    const deleteMotorcycle = await this.motorcycleService.deleteMotorcycle(id);
+    const { type, message } = deleteMotorcycle;
+    if (type === motoNotExist) return this.res.status(404).json({ message });
+    if (type === erroId) return this.res.status(422).json({ message });
+    return this.res.status(200).end();
   }
 }
 
