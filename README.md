@@ -38,7 +38,6 @@ O car-shop é uma API construida com programação orientada a objetos que faz o
   <br>
 </details>
 
-<details>
 ---
 
 ## tecnologias e ferramentas usadas
